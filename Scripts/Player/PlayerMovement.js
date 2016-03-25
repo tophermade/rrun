@@ -3,6 +3,7 @@
 var manager 		: GameObject;
 var heightIndicator : GameObject;
 var body 			: Rigidbody;
+var jumpEffect		: GameObject;
 
 
 var speed 			: float			= 5;
@@ -54,6 +55,7 @@ function StartRound(){
 
 
 function Start () {
+	manager = GameObject.Find("Manager");
 	body = GetComponent(Rigidbody);
 	StartRound();
 }
@@ -69,7 +71,8 @@ function FixedUpdate(){
 
 
 function Update () {
-	if(Input.GetMouseButtonDown(0)){
+	if(Input.GetMouseButtonDown(0) && onGround){
 		body.velocity.y = jumpPower;
+		onGround = false;
 	}
 }
