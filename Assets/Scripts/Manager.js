@@ -9,15 +9,23 @@ var gameOverScene 		: GameObject;
 var player 				: GameObject;
 var playingScoreDisplay : GameObject;
 
+var lastSpawnForemost 	: GameObject;
+
 var playerStartPosition : Vector3;
-var lastSpawnPosition	: int 			= 0;
-var lastSpawnWidth 		: int 			= 1;
 
 
 
-function SpawnGroup(currentDistance : int){
+function SpawnGroup(leadingBlock : GameObject){
 	// max jump distance is a four unit gap
+	lastSpawnForemost 			= leadingBlock;
+	var gap 			: int 	= Random.Range(1,5);		
+	var verticalGap 	: int 	= Random.Range(-2,3);
 
+	var groupId 		: int  	= Random.Range(0, potentialBlocks.length);
+
+	var newGroup = Instantiate(potentialBlocks[groupId], transform.position, Quaternion.identity);
+		newGroup.transform.position.x = lastSpawnForemost.transform.position.x + 4;
+		newGroup.transform.position.y = lastSpawnForemost.transform.position.y + verticalGap;
 }
 
 function Notify(notifyThese : GameObject[], theMessage : String){

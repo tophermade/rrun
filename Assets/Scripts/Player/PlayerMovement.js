@@ -17,6 +17,7 @@ var jumpPower 		: float 		= 9;
 
 var playing 		: boolean 		= false;
 var onGround 		: boolean 		= false;
+var isAlive 		: boolean 		= true;
 
 
 
@@ -30,6 +31,7 @@ function HexToColor(hex : String, alpha : int) : Color{
 
 
 function HitWall(){
+	isAlive = false;
 	gib = Instantiate(deathEffect, Vector3(transform.position.x,transform.position.y+.7,transform.position.z+.3), Quaternion.identity);
 	//transform.Find("default").gameObject.SetActive(false);
 }
@@ -39,37 +41,41 @@ function Jump(){
 	body.velocity.y = jumpPower;
 	onGround = false;
 	var newEffect = Instantiate(jumpEffect, heightIndicator.transform.position, Quaternion.identity);
-	newEffect.transform.localEulerAngles = Vector3(-90, 0, 0);
+	newEffect.transform.localEulerAngles = Vector3(90, 0, 0);
 }
 
 
 function OnCollisionEnter(collision : Collision) {
-	var hitWall : boolean = false;
-	print("hit something");
+	if(isAlive){
+		var hitWall : boolean = false;
+		print("hit something");
 
-	for (var contact : ContactPoint in collision.contacts) {
-		if(heightIndicator.transform.position.y < contact.point.y){
-			print("Hit a wall");
-			hitWall = true;
-		} else {
-			//print("Landed on the ground");
-			onGround = true;
-			body.velocity.y = 0;
+		for (var contact : ContactPoint in collision.contacts) {
+			if(heightIndicator.transform.position.y < contact.point.y){
+				print("Hit a wall");
+				hitWall = true;
+			} else {
+				//print("Landed on the ground");
+				onGround = true;
+				// if(body.velocity.y < -0){
+				// 	body.velocity.y = 0;
+				// }
 
-			if(collision.transform.gameObject.tag == "Block"){
-				var thisParent : GameObject = collision.transform.parent.gameObject;
-				if(!thisParent.GetComponent(BlockGroup).groupVisited){
-					manager.SendMessage("SpawnGroup", thisParent.GetComponent(BlockGroup).groupWidth);
-					thisParent.GetComponent(BlockGroup).groupVisited = true;
+				if(collision.transform.gameObject.tag == "Block"){
+					var thisParent : GameObject = collision.transform.parent.gameObject;
+					if(!thisParent.GetComponent(BlockGroup).groupVisited){
+						manager.SendMessage("SpawnGroup", thisParent.GetComponent(BlockGroup).frontMostObject);
+						thisParent.GetComponent(BlockGroup).groupVisited = true;
+					}
+					
 				}
-				
 			}
 		}
-	}
 
-	if(hitWall){
-		HitWall();
-		manager.SendMessage("EndRound");
+		if(hitWall){
+			HitWall();
+			manager.SendMessage("EndRound");
+		}
 	}
 }
 
@@ -83,6 +89,7 @@ function StartRound(){
 	scoreDisplay.transform.position = scoreInitial;
 	yield WaitForSeconds(.05);
 	playing = true;
+	isAlive = true;
 	print("player has started round");
 }
 
