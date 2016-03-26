@@ -7,6 +7,7 @@ var indexScene 			: GameObject;
 var gameOverScene 		: GameObject;
 
 var player 				: GameObject;
+var playingScoreDisplay : GameObject;
 
 var playerStartPosition : Vector3;
 var lastSpawnPosition	: int 			= 0;
@@ -37,14 +38,17 @@ function StartRound(arg : String){
 
 function RestartRound(){
 	player.SetActive(true);
+	playingScoreDisplay.SetActive(true);
 	StartRound("restart");
 }
 
 
 function EndRound(){
 	Notify(notify, "EndRound");
-	gameOverScene.SetActive(true);
 	player.transform.position = playerStartPosition;
+	yield WaitForSeconds(.75);	
+	playingScoreDisplay.SetActive(false);
+	gameOverScene.SetActive(true);
 }
 
 

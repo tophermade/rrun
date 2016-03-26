@@ -6,6 +6,9 @@ var body 			: Rigidbody;
 var jumpEffect		: GameObject;
 var deathEffect 	: GameObject;
 var gib 			: GameObject;
+var scoreDisplay 	: GameObject;
+var playerInitial 	: Vector3;
+var scoreInitial 	: Vector3;
 
 
 var speed 			: float			= 5;
@@ -27,7 +30,6 @@ function HexToColor(hex : String, alpha : int) : Color{
 
 
 function HitWall(){
-	gameObject.SetActive(false);
 	gib = Instantiate(deathEffect, Vector3(transform.position.x,transform.position.y+.7,transform.position.z+.3), Quaternion.identity);
 	//transform.Find("default").gameObject.SetActive(false);
 }
@@ -77,6 +79,8 @@ function StartRound(){
 		Destroy(gib);
 		gib = null;
 	}
+	scoreDisplay.SetActive(true);
+	scoreDisplay.transform.position = scoreInitial;
 	yield WaitForSeconds(.05);
 	playing = true;
 	print("player has started round");
@@ -84,13 +88,15 @@ function StartRound(){
 
 
 function EndRound(){
-
+	playing = false;
 }
 
 
 function Start () {
 	manager = GameObject.Find("Manager");
 	body = GetComponent(Rigidbody);
+	playerInitial = transform.position;
+	scoreInitial = scoreDisplay.transform.position;
 }
 
 
@@ -107,6 +113,12 @@ function Update () {
 	if(playing){
 		if(Input.GetMouseButtonDown(0) && onGround){
 			Jump();
+		}
+
+		if(transform.position.x > 10){
+			scoreDisplay.transform.position = Vector3(transform.position.x+scoreInitial.x -10, transform.position.y + scoreInitial.y, 10);
+		} else {
+			scoreDisplay.transform.position.y = transform.position.y + scoreInitial.y;
 		}
 	}
 }
