@@ -13,6 +13,7 @@ var scoreInitial 	: Vector3;
 
 var speed 			: float			= 5;
 var jumpPower 		: float 		= 9;
+var jumpTime		: float 		= 0;
 
 
 var playing 		: boolean 		= false;
@@ -38,6 +39,7 @@ function HitWall(){
 
 
 function Jump(){
+	jumpTime = Time.time;
 	body.velocity.y = jumpPower;
 	onGround = false;
 	var newEffect = Instantiate(jumpEffect, heightIndicator.transform.position, Quaternion.identity);
@@ -57,9 +59,10 @@ function OnCollisionEnter(collision : Collision) {
 			} else {
 				//print("Landed on the ground");
 				onGround = true;
-				// if(body.velocity.y < -0){
-				// 	body.velocity.y = 0;
-				// }
+				
+				if(Time.time > jumpTime +.05){
+					body.velocity.y = 0;
+				}
 
 				if(collision.transform.gameObject.tag == "Block"){
 					var thisParent : GameObject = collision.transform.parent.gameObject;
@@ -96,6 +99,7 @@ function StartRound(){
 
 function EndRound(){
 	playing = false;
+	body.velocity = Vector3(0,0,0);
 }
 
 
