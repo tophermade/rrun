@@ -50,14 +50,14 @@ function Jump(){
 function OnCollisionEnter(collision : Collision) {
 	if(isAlive){
 		var hitWall : boolean = false;
-		print("hit something");
+		//print("hit something");
 
 		for (var contact : ContactPoint in collision.contacts) {
 			if(heightIndicator.transform.position.y < contact.point.y){
 				print("Hit a wall");
 				hitWall = true;
 			} else {
-				//print("Landed on the ground");
+				print("Landed on the ground");
 				onGround = true;
 				
 				if(Time.time > jumpTime +.05){

@@ -11,12 +11,21 @@ var playingScoreDisplay : GameObject;
 
 var lastSpawnForemost 	: GameObject;
 
+var playScore 			: GameObject;
+var gameOverScore 		: GameObject;
+var highScore 			: GameObject;
+
+var playing 			: boolean 		= false;
+
 var playerStartPosition : Vector3;
+var score 				: int 			= 0;
 
 
 
 function SpawnGroup(leadingBlock : GameObject){
 	// max jump distance is a four unit gap
+	print("spawn group");
+
 	lastSpawnForemost 			= leadingBlock;
 	var gap 			: int 	= Random.Range(1,5);		
 	var verticalGap 	: int 	= Random.Range(-2,3);
@@ -35,6 +44,9 @@ function Notify(notifyThese : GameObject[], theMessage : String){
 }
 
 function StartRound(arg : String){
+	score = 0;
+	UpdateScore();
+	playing = true;
 	if(arg == "first"){
 		indexScene.GetComponent(Animator).SetTrigger("PlayExit");
 	}
@@ -45,18 +57,38 @@ function StartRound(arg : String){
 
 
 function RestartRound(){
+	playing = true;
 	player.SetActive(true);
+	score = 0;
+	UpdateScore();
 	playingScoreDisplay.SetActive(true);
 	StartRound("restart");
 }
 
 
 function EndRound(){
+	playing = false;
 	Notify(notify, "EndRound");
 	player.transform.position = playerStartPosition;
+	SetupHighscore();
 	yield WaitForSeconds(.75);	
 	playingScoreDisplay.SetActive(false);
 	gameOverScene.SetActive(true);
+}
+
+
+function SetupHighscore(){
+
+}
+
+
+function UpdateScore(){
+	var oScore : int = score;
+	score = player.transform.position.x / 5;
+	if(oScore < score){
+		playScore.GetComponent(TextMesh).text = score.ToString();
+		gameOverScore.GetComponent(TextMesh).text = score.ToString();
+	}
 }
 
 
@@ -66,6 +98,12 @@ function Start () {
 }
 
 
-function Update () {
+function FixedUpdate(){	
+	if(playing){
+		UpdateScore();
+	}
+}
 
+
+function Update () {
 }
