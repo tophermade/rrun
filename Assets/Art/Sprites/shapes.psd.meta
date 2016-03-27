@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 19b84f8f1ef2ee545ac89369950e65f1
-timeCreated: 1458898185
+timeCreated: 1459077195
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -15,6 +15,7 @@ TextureImporter:
     21300016: shapes_8
     21300018: shapes_9
     21300020: shapes_10
+    21300022: shapes_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -783,6 +784,25 @@ TextureImporter:
         - {x: 70, y: -51.5}
         - {x: 70, y: 42.5}
         - {x: 28, y: 51.5}
+    - name: shapes_11
+      rect:
+        serializedVersion: 2
+        x: 1340
+        y: 12
+        width: 226
+        height: 258
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 94, y: 129}
+        - {x: -49, y: 106}
+        - {x: -113, y: -73}
+        - {x: -113, y: -129}
+        - {x: 91, y: -129}
+        - {x: 96, y: -116}
+        - {x: 113, y: -89}
+        - {x: 113, y: 129}
     outline: []
   spritePackingTag: 
   userData: 

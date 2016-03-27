@@ -1,24 +1,24 @@
 ﻿#pragma strict
 
-var manager 		: GameObject;
-var heightIndicator : GameObject;
-var body 			: Rigidbody;
-var jumpEffect		: GameObject;
-var deathEffect 	: GameObject;
-var gib 			: GameObject;
-var scoreDisplay 	: GameObject;
-var playerInitial 	: Vector3;
-var scoreInitial 	: Vector3;
+var manager 			: GameObject;
+var heightIndicator 	: GameObject;
+var body 				: Rigidbody;
+var jumpEffect			: GameObject;
+var deathEffect 		: GameObject;
+var gib 				: GameObject;
+var scoreDisplay 		: GameObject;
+var playerInitial 		: Vector3;
+var scoreInitial 		: Vector3;
 
 
-var speed 			: float			= 5;
-var jumpPower 		: float 		= 9;
-var jumpTime		: float 		= 0;
+var speed 				: float			= 5;
+var jumpPower 			: float 		= 9;
+var jumpTime			: float 		= 0;
 
 
-var playing 		: boolean 		= false;
-var onGround 		: boolean 		= false;
-var isAlive 		: boolean 		= true;
+var playing 			: boolean 		= false;
+var onGround 			: boolean 		= false;
+var isAlive 			: boolean 		= true;
 
 
 
@@ -39,6 +39,7 @@ function HitWall(){
 
 
 function Jump(){
+	manager.SendMessage("PlayJump");		
 	jumpTime = Time.time;
 	body.velocity.y = jumpPower;
 	onGround = false;
@@ -58,6 +59,11 @@ function OnCollisionEnter(collision : Collision) {
 				hitWall = true;
 			} else {
 				print("Landed on the ground");
+
+				if(!onGround && playing){
+					manager.SendMessage("PlayLanding");					
+				}
+
 				onGround = true;
 				
 				if(Time.time > jumpTime +.05){
@@ -77,6 +83,7 @@ function OnCollisionEnter(collision : Collision) {
 
 		if(hitWall){
 			HitWall();
+			manager.SendMessage("PlayHit");
 			manager.SendMessage("EndRound");
 		}
 	}

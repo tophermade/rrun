@@ -1,7 +1,7 @@
 ﻿#pragma strict
 //	GameObject / AudioClip / Transform
 var buttonTap 		: AudioClip;
-var deathHit 		: AudioClip;
+var deathHit 		: AudioClip[];
 var deathFall 		: AudioClip;
 var jump 			: AudioClip;
 var landing			: AudioClip;
@@ -25,7 +25,8 @@ function PlayTap(){
 }
 
 function PlayHit(){
-	GetComponent.<AudioSource>().PlayOneShot(deathHit, clipLevel);
+	var hitNum : int = Random.Range(0,deathHit.length);
+	GetComponent.<AudioSource>().PlayOneShot(deathHit[hitNum], clipLevel);
 }
 
 function PlayFall(){
@@ -42,4 +43,8 @@ function PlayLanding(){
 
 function PlayKill(){
 	GetComponent.<AudioSource>().PlayOneShot(kill, clipLevel);
+}
+
+function PlayMusic(){
+	
 }
