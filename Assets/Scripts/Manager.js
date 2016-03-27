@@ -78,7 +78,14 @@ function EndRound(){
 
 
 function SetupHighscore(){
-
+	if(PlayerPrefs.HasKey("highscore")){
+		if(score > parseInt(PlayerPrefs.GetInt("highscore"))){			
+			PlayerPrefs.SetInt("highscore", score);
+		}
+	} else {
+		PlayerPrefs.SetInt("highscore", 0);
+	}
+	highScore.GetComponent(TextMesh).text = PlayerPrefs.GetInt("highscore").ToString();
 }
 
 
