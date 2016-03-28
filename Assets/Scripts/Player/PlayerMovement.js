@@ -14,6 +14,7 @@ var scoreInitial 		: Vector3;
 var speed 				: float			= 5;
 var jumpPower 			: float 		= 9;
 var jumpTime			: float 		= 0;
+var jumpPosition 		: float 		= 0;
 
 
 var playing 			: boolean 		= false;
@@ -33,12 +34,14 @@ function HexToColor(hex : String, alpha : int) : Color{
 
 function HitWall(){
 	isAlive = false;
+	playing = false;
 	gib = Instantiate(deathEffect, Vector3(transform.position.x,transform.position.y+.7,transform.position.z+.3), Quaternion.identity);
 	//transform.Find("default").gameObject.SetActive(false);
 }
 
 
 function Jump(){
+	jumpPosition = transform.position.y;
 	manager.SendMessage("PlayJump");		
 	jumpTime = Time.time;
 	body.velocity.y = jumpPower;
@@ -59,6 +62,7 @@ function OnCollisionEnter(collision : Collision) {
 				hitWall = true;
 			} else {
 				print("Landed on the ground");
+				jumpPosition = transform.position.y;
 
 				if(!onGround && playing){
 					manager.SendMessage("PlayLanding");					
@@ -122,6 +126,12 @@ function Start () {
 function FixedUpdate(){
 	if(playing){
 		body.velocity.x = speed;
+
+		if(jumpPosition > transform.position.y + 7){
+			HitWall();
+			manager.SendMessage("PlayHit");
+			manager.SendMessage("EndRound");
+		}
 	}
 }
 
