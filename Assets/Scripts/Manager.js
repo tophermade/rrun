@@ -2,6 +2,7 @@
 
 var notify 				: GameObject[];
 var potentialBlocks 	: GameObject[];
+var playBlockParent 	: GameObject;
 
 var indexScene 			: GameObject;
 var gameOverScene 		: GameObject;
@@ -37,6 +38,7 @@ function SpawnGroup(leadingBlock : GameObject){
 	var newGroup = Instantiate(potentialBlocks[groupId], transform.position, Quaternion.identity);
 		newGroup.transform.position.x = lastSpawnForemost.transform.position.x + gap;
 		newGroup.transform.position.y = lastSpawnForemost.transform.position.y + verticalGap;
+		newGroup.transform.parent = playBlockParent.transform;
 }
 
 function Notify(notifyThese : GameObject[], theMessage : String){
