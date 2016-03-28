@@ -33,7 +33,11 @@ function SetupBlocks(){
 	    	backMost = child.position.x;
 	    	backMostObject = child.gameObject;
 	    }
+	}
 
+	if(backMostObject == null){
+		backMostObject = gameObject.transform.GetChild(0).gameObject;
+		print(backMostObject);
 	}
 
 	if(overRidingBlock){
@@ -41,7 +45,7 @@ function SetupBlocks(){
 	}
 }
 
-function Start () {
+function Awake () {
 	backMost = transform.position.x;
 	frontMost = transform.position.x;
 	upMost = transform.position.y;

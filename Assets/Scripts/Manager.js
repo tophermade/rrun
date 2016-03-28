@@ -37,6 +37,10 @@ function SpawnGroup(leadingBlock : GameObject){
 
 	var newGroup = Instantiate(potentialBlocks[groupId], transform.position, Quaternion.identity);
 		newGroup.transform.position.x = lastSpawnForemost.transform.position.x + gap;
+
+		print("parent is " + newGroup.transform.position.y);
+		print("back most is " + newGroup.gameObject.GetComponent(BlockGroup).backMostObject.transform.position.y);
+
 		newGroup.transform.position.y = lastSpawnForemost.transform.position.y + verticalGap;
 		newGroup.transform.parent = playBlockParent.transform;
 }
