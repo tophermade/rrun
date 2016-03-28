@@ -29,13 +29,13 @@ function SpawnGroup(leadingBlock : GameObject){
 	print("spawn group");
 
 	lastSpawnForemost 			= leadingBlock;
-	var gap 			: int 	= Random.Range(1,5);		
+	var gap 			: int 	= Random.Range(1,4);		
 	var verticalGap 	: int 	= Random.Range(-2,3);
 
 	var groupId 		: int  	= Random.Range(0, potentialBlocks.length);
 
 	var newGroup = Instantiate(potentialBlocks[groupId], transform.position, Quaternion.identity);
-		newGroup.transform.position.x = lastSpawnForemost.transform.position.x + 4;
+		newGroup.transform.position.x = lastSpawnForemost.transform.position.x + gap;
 		newGroup.transform.position.y = lastSpawnForemost.transform.position.y + verticalGap;
 }
 
