@@ -30,7 +30,7 @@ function SpawnGroup(leadingBlock : GameObject){
 	print("spawn group");
 
 	lastSpawnForemost 			= leadingBlock;
-	var gap 			: int 	= Random.Range(1,4);		
+	var gap 			: int 	= Random.Range(3,4);		
 	var verticalGap 	: int 	= Random.Range(-2,3);
 
 	var groupId 		: int  	= Random.Range(0, potentialBlocks.length);
@@ -38,7 +38,7 @@ function SpawnGroup(leadingBlock : GameObject){
 	var newGroup = Instantiate(potentialBlocks[groupId], transform.position, Quaternion.identity);
 		newGroup.transform.position.x = lastSpawnForemost.transform.position.x + gap;
 
-		print("parent is " + newGroup.transform.position.y);
+		print("last foremost is " + lastSpawnForemost.transform.position.y);
 		print("back most is " + newGroup.gameObject.GetComponent(BlockGroup).backMostObject.transform.position.y);
 
 		newGroup.transform.position.y = lastSpawnForemost.transform.position.y + verticalGap;
