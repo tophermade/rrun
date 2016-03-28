@@ -18,6 +18,8 @@ var highScore 			: GameObject;
 var playing 			: boolean 		= false;
 
 var playerStartPosition : Vector3;
+var playsBetweenAds		: int 			= 5;
+var plays 				: int 			= 0;
 var score 				: int 			= 0;
 
 
@@ -45,6 +47,7 @@ function Notify(notifyThese : GameObject[], theMessage : String){
 
 function StartRound(arg : String){
 	score = 0;
+	plays++;
 	UpdateScore();
 	playing = true;
 	if(arg == "first"){
@@ -58,6 +61,7 @@ function StartRound(arg : String){
 
 function RestartRound(){
 	playing = true;
+	plays++;
 	player.SetActive(true);
 	score = 0;
 	UpdateScore();
@@ -71,6 +75,9 @@ function EndRound(){
 	Notify(notify, "EndRound");
 	player.transform.position = playerStartPosition;
 	SetupHighscore();
+	if(plays % playsBetweenAds == 0){
+		BroadcastMessage("ShowAd");
+	}
 	yield WaitForSeconds(.75);	
 	playingScoreDisplay.SetActive(false);
 	gameOverScene.SetActive(true);
@@ -83,7 +90,7 @@ function SetupHighscore(){
 			PlayerPrefs.SetInt("highscore", score);
 		}
 	} else {
-		PlayerPrefs.SetInt("highscore", 0);
+		PlayerPrefs.SetInt("highscore", score);
 	}
 	highScore.GetComponent(TextMesh).text = PlayerPrefs.GetInt("highscore").ToString();
 }
