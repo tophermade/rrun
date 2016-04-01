@@ -4,6 +4,8 @@ var notify 				: GameObject[];
 var potentialBlocks 	: GameObject[];
 var playBlockParent 	: GameObject;
 
+var startPad 			: GameObject;
+
 var indexScene 			: GameObject;
 var gameOverScene 		: GameObject;
 
@@ -23,6 +25,13 @@ var playsBetweenAds		: int 			= 5;
 var plays 				: int 			= 0;
 var score 				: int 			= 0;
 
+
+function ResetBlocks(){
+	startPad.GetComponent(BlockGroup).groupVisited = false;
+	for(var platform : Transform in playBlockParent.transform){
+        Destroy(platform.gameObject);
+    }
+}
 
 
 function SpawnGroup(leadingBlock : GameObject){
@@ -66,6 +75,7 @@ function StartRound(arg : String){
 
 
 function RestartRound(){
+	ResetBlocks();
 	playing = true;
 	plays++;
 	player.SetActive(true);
