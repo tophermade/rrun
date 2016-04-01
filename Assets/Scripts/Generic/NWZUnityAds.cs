@@ -5,15 +5,20 @@ using UnityEngine.Advertisements;
 public class NWZUnityAds : MonoBehaviour {
 
 	public void ShowAd(){
-		if(Advertisement.IsReady()){
-			if(PlayerPrefs.HasKey("showads")){
-				if(PlayerPrefs.GetString("showads") != "false"){
-					Advertisement.Show();
+
+		if(SystemInfo.deviceModel.ToLower().Contains("amazon")){
+			BroadcastMessage("ShowAdmobInterstertial");
+		} else {
+			if(Advertisement.IsReady()){
+				if(PlayerPrefs.HasKey("showads")){
+					if(PlayerPrefs.GetString("showads") != "false"){
+						Advertisement.Show();
+					} else {
+						print("no ads has been purchased, skipping advert");
+					}
 				} else {
-					print("no ads has been purchased, skipping advert");
+					Advertisement.Show();
 				}
-			} else {
-				Advertisement.Show();
 			}
 		}
 	}

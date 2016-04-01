@@ -44,6 +44,10 @@ public class NWZAdmob : MonoBehaviour {
 	    interstitial.LoadAd(request);
 	}
 
+	public void ShowAdmobInterstertial(){
+		interstitial.Show();
+	}
+
 	public void DisableAds(){
 		bannerView.Destroy();
 	}
@@ -52,12 +56,14 @@ public class NWZAdmob : MonoBehaviour {
 		if(useAdmobBanners){
 			if(PlayerPrefs.HasKey("showads")){
 				if(PlayerPrefs.GetString("showads") != "false"){
+					RequestInterstitial();
 					RequestBanner();
 				} else {
 					print("no ads has been purchased, skipping banners");
 				}
 			} else {
 				RequestBanner();
+				RequestInterstitial();
 			}
 		}
 	}
