@@ -7,6 +7,8 @@ var jumpEffect			: GameObject;
 var deathEffect 		: GameObject;
 var gib 				: GameObject;
 var scoreDisplay 		: GameObject;
+var cloudParent 		: GameObject;
+var clouds 				: GameObject[];
 var playerInitial 		: Vector3;
 var scoreInitial 		: Vector3;
 
@@ -15,6 +17,7 @@ var speed 				: float			= 5;
 var jumpPower 			: float 		= 9;
 var jumpTime			: float 		= 0;
 var jumpPosition 		: float 		= 0;
+var lastCloud 			: float 		= 0;
 
 
 var playing 			: boolean 		= false;
@@ -104,6 +107,7 @@ function StartRound(){
 	yield WaitForSeconds(.05);
 	playing = true;
 	isAlive = true;
+	lastCloud = 5;
 	print("player has started round");
 }
 
@@ -131,6 +135,15 @@ function FixedUpdate(){
 			HitWall();
 			manager.SendMessage("PlayHit");
 			manager.SendMessage("EndRound");
+		}
+
+		if(transform.position.x > lastCloud){
+			lastCloud = lastCloud + 25;
+			var newCloud = Instantiate(clouds[0], transform.position, Quaternion.identity);
+				newCloud.transform.position.z = 13.5 + Random.Range(-5,5);
+				newCloud.transform.position.x = transform.position.x + 25;
+				newCloud.transform.parent = cloudParent.transform;
+
 		}
 	}
 }
