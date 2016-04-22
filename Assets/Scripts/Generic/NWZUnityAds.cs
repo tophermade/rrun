@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.Advertisements;
 
 public class NWZUnityAds : MonoBehaviour {
-
+#if UNITY_IPHONE || UNITY_ANDROID
 	public void ShowAd(){
 
 		if(SystemInfo.deviceModel.ToLower().Contains("amazon")){
@@ -46,4 +46,5 @@ public class NWZUnityAds : MonoBehaviour {
 				break;
 		}
 	}
+#endif
 }
